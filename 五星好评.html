@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>五星评分</title>
+	<style>
+		*{margin:0;padding:0;}
+		li{list-style:none;}
+		body{
+			font-size:14px;
+			color:#666;
+		}
+		.star{
+			width:14px;
+			height:14px;
+			display:inline-block;
+			background-image: url(images/commstar.png);
+			background-position:-1px -1px;
+			cursor:pointer;
+			position:relative;
+			float:left;
+		}
+		.smilingface{
+			position:absolute;
+			top:-18px;
+			left:-1px;
+			width:16px;
+			height:16px;
+			display:block;
+			background-image: url(images/face.png);
+			display:none;
+		}
+		.star:hover,.star.focus{
+			background-position:-1px -17px;
+		}
+		#wrap{
+			width:1000px;
+			margin:100px auto;
+		}
+		#score{
+			color:#dd4012;
+		}
+		.item{
+			float:left;
+			margin-right:30px;
+		}
+		.stars{
+			width:70px;
+			display:inline-block;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<div class="content">
+			<span class="pack">顾客评价</span>
+			<span class="stars">
+				<span class="star" flasename="1"><i class="smilingface"></i></span>
+				<span class="star" flasename="2"><i class="smilingface"></i></span>
+				<span class="star" flasename="3"><i class="smilingface"></i></span>
+				<span class="star" flasename="4"><i class="smilingface"></i></span>
+				<span class="star" flasename="5"><i class="smilingface"></i></span>
+			</span>
+			<span id="score">0分</span>
+		</div>
+	</div>
+	<script src="Darian.js"></script>
+	<script>
+			var starList=$(".stars")[0].getElementsByClassName("star")
+			var scoreNode=$("#score")
+			var stars=$(".stars")[0]
+			var score=0
+			bindEvent(starList,"onmouseenter",function(){	/*绑定鼠标移上事件*/
+				var n=this.getAttribute("flasename")	/*将非法属性值赋予n*/
+				for(var i=0;i<starList.length;i++){
+					if(i<n){							
+						starList[i].className="star focus"
+					}
+					else{
+						starList[i].className="star"
+					}
+					stars.getElementsByClassName("smilingface")[i].style.display="none"
+				}
+				/*当移上第一个star时让第一个笑脸显示*/
+				this.firstChild.style.display="block"
+				/*当点击任意的star时让笑脸依次显示*/
+				this.firstChild.style.backgroundPosition=((n - 1) * 20) - 80 + "px"
+			})
+			stars.onmouseleave=function(){			/*绑定鼠标离开事件*/
+				for(var i=0;i<starList.length;i++){
+					/*当鼠标离开时笑脸隐藏*/
+					stars.getElementsByClassName("smilingface")[i].style.display="none"
+				}
+				updateScore();
+			}	
+			bindEvent(starList,function(){		/*点击star显示分数*/
+				score=parseInt(this.getAttribute("flasename"));
+				updateScore();
+			})
+			function updateScore(){					/*封装函数*/
+				for(var i=0;i<starList.length;i++){
+					starList[i].className="star"
+				}
+				for(var i=0;i<score;i++){
+					starList[i].className="star focus"
+				}
+				scoreNode.innerHTML=score + "分"
+			}
+	</script>
+</body>
+</html>

@@ -43,3 +43,20 @@ function insertAfter(newElement,p3){
 		parent.insertBefore(newElement,p3.nextSibling)
 	}
 }
+/*返回离他最近的下一个兄弟节点*/
+function nextBrotherNode(brother){
+  while(brother.nextSibling.nodeType!=1){
+    brother = brother.nextSibling
+    if(brother.nextSibling.nodeType==1){
+      return brother.nextSibling
+    }
+  }
+}
+// 返回该节点里面的所有子元素节点
+function sunchild(sun){
+  for(var a=0;a<sun.childNodes.length;a++){
+    if(sun.childNodes[a].nodeType==1){
+      console.log(sun.childNodes[a])
+    }
+  }
+}
